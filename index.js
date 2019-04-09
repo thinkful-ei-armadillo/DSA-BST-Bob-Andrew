@@ -226,11 +226,23 @@ function areTheSameBST(array1, array2){
             array2Left.push(array2[i]);
         }
     }
-    console.log(`array1Left: ${array1Left}`)
-    console.log(`array1Right: ${array1Right}`)
-    console.log(`array2Left: ${array2Left}`)
-    console.log(`array2Right: ${array2Right}`)
-
+    if(array1Left.length === array2Left.length && array1Right.length === array2Right.length){
+        array1Left.sort();
+        array2Left.sort();
+        array1Right.sort();
+        array2Right.sort();
+        for(let i = 0; i < array1Left.length; i++){
+            if(array1Left[i] !== array2Left[i]){
+                return false;
+            }
+        }
+        for(let i = 0; i < array1Right.length; i++){
+            if(array1Right[i] !== array2Right[i]){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 function main() {
@@ -247,7 +259,7 @@ function main() {
     //console.log(balancedBST(tree));
     let array1 = [3, 5, 4, 6, 1, 0, 2];
     let array2 = [3, 1, 5, 2, 4, 6, 0];
-    areTheSameBST(array1, array2);
+    console.log(areTheSameBST(array1, array2));
 }
 
 main();
