@@ -128,6 +128,21 @@ function findHeight(tree) {
 	}
 }
 
+function findMinHeight(tree) {
+    if (tree.left === null && tree.right === null) {
+        return 0;
+        }
+        else if (tree.left === null) {
+            return findHeight(tree.right) + 1;
+        }
+        else if (tree.right === null) {
+            return findHeight(tree.left) + 1;
+        }
+      else {
+        return Math.min(findHeight(tree.right), findHeight(tree.left)) + 1;
+        }
+}
+
 function isBst(tree) {
 	if (tree.left === null && tree.right === null) {
 		return true;
@@ -152,6 +167,72 @@ function isBst(tree) {
 	}
 }
 
+function thirdLargestNode(tree){
+    // find the largest node
+    // check its left and its parent and compare and return the biggest
+    let biggest = tree;
+    while(biggest.right){
+        biggest = biggest.right;
+    }
+    if(biggest.parent > biggest.left){
+        if(biggest.left > biggest.parent.parent || !biggest.parent.parent){
+            return biggest.left.key;
+        }
+        return biggest.parent.parent.key;
+    }
+    else {
+        if(biggest.parent > biggest.left.left || !biggest.left.left){
+            return biggest.parent.key;
+        }
+        return biggest.left.left.key;
+    }
+}
+
+function balancedBST(tree){
+    return ((findHeight(tree) - findMinHeight(tree) > 1) ? false : true);
+}
+
+function sortArray(array){
+    if(array.length === 0){
+        return array;
+    }
+    array.splice(array.indexOf(target), 1)
+    return [...sortArray(array), target]
+}
+
+function areTheSameBST(array1, array2){
+    // input: [3, 5, 4, 6, 1, 0, 2], [3, 1, 5, 2, 4, 6, 0]
+    // output: [3, 5, 6, 4, 1, 2, 0], [3, 5, 6, 4, 1, 2, 0]
+    let array1Left = [];
+    let array1Right = [];
+    let array2Left = [];
+    let array2Right = []; 
+    if(array1[0] !== array2[0] || array1.length !== array2.length){
+        return false;
+    }
+    for(let i = 1; i < array1.length; i++){
+        if(array1[i] > array1[0]){
+            array1Right.push(array1[i]);
+        }
+        else{
+            array1Left.push(array1[i]);
+        }
+    }
+    for(let i = 1; i < array2.length; i++){
+        if(array2[i] > array2[0]){
+            array2Right.push(array2[i]);
+        }
+        else{
+            array2Left.push(array2[i]);
+        }
+    }
+    console.log(`array1Left: ${array1Left}`)
+    console.log(`array1Right: ${array1Right}`)
+    console.log(`array2Left: ${array2Left}`)
+    console.log(`array2Right: ${array2Right}`)
+
+}
+
 function main() {
 	let tree = new BinarySearchTree();
 	tree.insert(2, '');
@@ -162,10 +243,11 @@ function main() {
 	tree.insert(5, '');
 	tree.insert(4, '');
 	tree.insert(1, '');
-	tree.insert(2, '');
 	tree.insert(7, '');
-	tree.insert(2, '');
-	console.log(isBst(tree));
+    //console.log(balancedBST(tree));
+    let array1 = [3, 5, 4, 6, 1, 0, 2];
+    let array2 = [3, 1, 5, 2, 4, 6, 0];
+    areTheSameBST(array1, array2);
 }
 
 main();
